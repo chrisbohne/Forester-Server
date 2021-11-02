@@ -10,7 +10,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 @ApiTags('users')
@@ -23,6 +24,7 @@ export class UsersController {
   }
 
   @Get()
+  @ApiOkResponse({ type: [UserEntity] })
   findAll() {
     return this.usersService.findAll();
   }
