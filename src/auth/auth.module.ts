@@ -11,7 +11,7 @@ export const jwtSecret = 'test';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: jwtSecret,
+      secret: process.env.SECRET,
       signOptions: { expiresIn: '60s' },
     }),
   ],
