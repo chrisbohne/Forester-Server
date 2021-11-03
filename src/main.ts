@@ -18,6 +18,7 @@ async function bootstrap() {
     .setTitle('Forester API')
     .setDescription('This is the API for the Forester App')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
