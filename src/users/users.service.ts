@@ -11,6 +11,9 @@ export class UsersService {
 
   findOne(id: number) {
     console.log('in user service');
-    return this.prisma.user.findUnique({ where: { id: id } });
+    return this.prisma.user.findUnique({
+      where: { id: id },
+      include: { trees: true },
+    });
   }
 }

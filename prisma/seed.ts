@@ -8,7 +8,16 @@ async function main() {
     await prisma.user.create({ data: user });
   }
   for (const tree of trees) {
-    await prisma.tree.create({ data: tree });
+    await prisma.tree.create({
+      data: {
+        ...tree,
+        user: {
+          connect: {
+            id: 1,
+          },
+        },
+      },
+    });
   }
 }
 
