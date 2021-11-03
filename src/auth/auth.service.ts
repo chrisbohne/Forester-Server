@@ -11,34 +11,27 @@ import { Auth } from './entity/auth.entity';
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.prisma.user.findUnique({
-      where: { username: username },
-    });
-    if (user && user.password === password) {
-      return user;
-    }
-    return null;
-  }
-
   async login(username: string, password: string): Promise<Auth> {
     const user = await this.prisma.user.findUnique({
       where: { username: username },
     });
-    console.log('in login', user);
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('Password or Username does not exist');
     }
 
     const passwordValid = user.password === password;
 
     if (!passwordValid) {
-      throw new UnauthorizedException('Invalid Password');
+      throw new UnauthorizedException('Password or Username does not exist');
     }
 
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
     };
+  }
+
+  validateUser(id: number) {
+    return this.prisma.user.findUnique({ where: { id: id } });
   }
 }
