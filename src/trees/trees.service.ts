@@ -7,10 +7,10 @@ import { UpdateTreeDto } from './dto/update-tree.dto';
 export class TreesService {
   constructor(private prisma: PrismaService) {}
 
-  async create(tree: CreateTreeDto, userId: number) {
+  async create(createTreeDto: CreateTreeDto, userId: number) {
     return await this.prisma.tree.create({
       data: {
-        ...tree,
+        ...createTreeDto,
         user: {
           connect: {
             id: userId,
@@ -20,22 +20,25 @@ export class TreesService {
     });
   }
 
-  findAll() {
-    return this.prisma.tree.findMany();
+  async findAll() {
+    return await this.prisma.tree.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.tree.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.tree.findUnique({
       where: { id: id },
       include: { user: true },
     });
   }
 
-  update(id: number, updateTreeDto: UpdateTreeDto) {
-    return `This action updates a #${id} tree`;
+  async update(id: number, updateTreeDto: UpdateTreeDto) {
+    return await this.prisma.tree.update({
+      where: { id: id },
+      data: updateTreeDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tree`;
+  async remove(id: number) {
+    return await this.prisma.tree.delete({ where: { id: id } });
   }
 }

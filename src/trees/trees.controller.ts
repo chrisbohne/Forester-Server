@@ -18,7 +18,7 @@ import { TreeEntity } from './entities/tree.entity';
 export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
-  @Post(':userId')
+  @Post('new/:userId')
   @ApiCreatedResponse({ type: TreeEntity })
   async create(
     @Body() createTreeDto: CreateTreeDto,
@@ -41,12 +41,14 @@ export class TreesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
-    return this.treesService.update(+id, updateTreeDto);
+  @ApiCreatedResponse({ type: TreeEntity })
+  async update(@Param('id') id: string, @Body() updateTreeDto: UpdateTreeDto) {
+    return new TreeEntity(await this.treesService.update(+id, updateTreeDto));
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.treesService.remove(+id);
+  @ApiOkResponse({ type: TreeEntity })
+  async remove(@Param('id') id: string) {
+    return new TreeEntity(await this.treesService.remove(+id));
   }
 }
