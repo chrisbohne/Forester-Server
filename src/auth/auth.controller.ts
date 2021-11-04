@@ -3,7 +3,6 @@ import {
   Controller,
   Post,
   Patch,
-  Param,
   Delete,
   UseGuards,
 } from '@nestjs/common';
