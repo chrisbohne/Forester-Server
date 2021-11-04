@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Delete, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -20,5 +20,11 @@ export class UsersController {
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id') id: string) {
     return new UserEntity(await this.usersService.findOne(+id));
+  }
+
+  @Delete(':id')
+  @ApiOkResponse({ type: UserEntity })
+  async remove(@Param('id') id: string) {
+    return new UserEntity(await this.usersService.remove(+id));
   }
 }
