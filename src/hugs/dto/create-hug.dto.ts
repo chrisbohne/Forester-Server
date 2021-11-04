@@ -1,7 +1,7 @@
 export class CreateHugDto {
-  message?: string;
-  experience?: number;
+  message: string;
+  experience: number;
   duration: number;
-  userId: number;
-  treeId: number;
+  // userId: number;
+  // treeId: number;
 }

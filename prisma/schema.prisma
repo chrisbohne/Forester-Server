@@ -23,7 +23,7 @@ model Tree {
   createdAt DateTime @default(now())
   long      Float
   lat       Float
-  photo     String
+  photo     String?
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   hugs      Hug[]

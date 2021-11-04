@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTreeDto } from './dto/create-tree.dto';
 import { UpdateTreeDto } from './dto/update-tree.dto';
 
 @Injectable()
 export class TreesService {
-  create(createTreeDto: CreateTreeDto) {
-    return 'This action adds a new tree';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createTreeDto: CreateTreeDto, userId: number) {
+    return await this.prisma.tree.create({
+      data: {
+        ...createTreeDto,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all trees`;
+  async findAll() {
+    return await this.prisma.tree.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tree`;
+  async findOne(id: number) {
+    return await this.prisma.tree.findUnique({
+      where: { id: id },
+      include: { user: true },
+    });
   }
 
-  update(id: number, updateTreeDto: UpdateTreeDto) {
-    return `This action updates a #${id} tree`;
+  async update(id: number, updateTreeDto: UpdateTreeDto) {
+    return await this.prisma.tree.update({
+      where: { id: id },
+      data: updateTreeDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tree`;
+  async remove(id: number) {
+    return await this.prisma.tree.delete({ where: { id: id } });
   }
 }
