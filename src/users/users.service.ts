@@ -5,15 +5,18 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  findAll() {
-    return this.prisma.user.findMany();
+  async findAll() {
+    return await this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    console.log('in user service');
-    return this.prisma.user.findUnique({
+  async findOne(id: number) {
+    return await this.prisma.user.findUnique({
       where: { id: id },
       include: { trees: true },
     });
+  }
+
+  async remove(id: number) {
+    return await this.prisma.user.delete({ where: { id: id } });
   }
 }

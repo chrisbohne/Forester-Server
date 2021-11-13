@@ -29,14 +29,6 @@ export class HugsService {
     return await this.prisma.hug.findMany();
   }
 
-  findAllTreeHugs() {
-    return `This action returns all hugs`;
-  }
-
-  findAllUserHugs() {
-    return `This action returns all hugs`;
-  }
-
   async findOne(id: number) {
     return await this.prisma.hug.findUnique({
       where: { id: id },

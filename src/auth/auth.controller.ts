@@ -3,7 +3,6 @@ import {
   Controller,
   Post,
   Patch,
-  Param,
   Delete,
   UseGuards,
 } from '@nestjs/common';
@@ -20,6 +19,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Auth } from './entity/auth.entity';
 import { UserEntity } from './entity/user.entity';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { User } from './user.decorator';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -38,21 +38,22 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  @Patch('update/:id')
+  @Patch('update-current-user')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: UserEntity })
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@User() user: any, @Body() updateUserDto: UpdateUserDto) {
+    console.log(user);
     return new UserEntity(
-      await this.authService.updateUser(+id, updateUserDto),
+      await this.authService.updateUser(user.id, updateUserDto),
     );
   }
 
-  @Delete('delete/:id')
+  @Delete('delete-current-user')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'User deleted' })
-  async remove(@Param('id') id: string) {
-    await this.authService.removeUser(+id);
+  async remove(@User() user: any) {
+    await this.authService.removeUser(user.id);
   }
 }
