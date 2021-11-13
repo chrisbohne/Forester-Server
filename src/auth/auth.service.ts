@@ -23,6 +23,9 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
+      userName: data.username,
+      email: data.email,
+      experience: data.experience,
     };
   }
 
@@ -44,6 +47,9 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign({ userId: user.id }),
+      userName: user.username,
+      email: user.email,
+      experience: user.experience,
     };
   }
 
